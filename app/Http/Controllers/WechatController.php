@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Log;
-
 class WechatController extends Controller
 {
     /**
@@ -13,15 +11,10 @@ class WechatController extends Controller
      */
     public function serve()
     {
-        Log::info('request arrived.');
-
         $wechat = app('wechat');
         $wechat->server->setMessageHandler(function ($message) {
-            return "欢迎关注 overtrue！";
+            return "F Weixin!";
         });
-
-        Log::info('return response.');
-
         return $wechat->server->serve();
     }
 }
