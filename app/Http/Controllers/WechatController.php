@@ -11,10 +11,6 @@ class WechatController extends Controller
      */
     public function serve()
     {
-        $wechat = app('wechat');
-        $wechat->server->setMessageHandler(function ($message) {
-            return "F Weixin!";
-        });
-        return $wechat->server->serve();
+        return app('wechat')->server->serve();
     }
 }
