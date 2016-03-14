@@ -1,0 +1,62 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: #F0F0F0;
+}
+
+.div_h {
+    height: 50px;
+}
+
+.cgyd1 {
+    width: 100%;
+    margin-bottom: 25px;
+    background-color: #FFFFFF;
+}
+
+.cgyd2 {
+    width: 100%;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.img{
+    margin: 3.6% 2.6% -1% 4% ;
+    width: 6%;
+}
+
+input{
+    border: none;
+    position: relative;
+    top: -2%;
+}
+
+.cgyd1_1 {
+    background-color: #FFE240;
+    color: #000000;
+    text-align: center;
+    line-height: 50px;
+}
+
+.time{
+    width: 70px;
+    height:69%;
+    border-radius: 5px;
+    background-color: #fef7cb;
+    float: right;
+    margin-right: 2%;
+    text-align: center;
+    margin-top: 2%;
+}
+
+#day{
+    background-color: #FFE240;
+    width: 56px;
+}
+
+.cgyd1_4_you{
+    float: right;
+    margin-top: 4%;
+}
