@@ -14,7 +14,7 @@ class InformationController extends Controller
 {
     public function index($activityId)
     {
-
+        return config_path('administrator');
         $activity = Activity::find($activityId);
         $subDistricts = SubDistrict::all();
         $housingEstates = HousingEstate::all();

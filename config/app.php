@@ -160,6 +160,7 @@ return [
          * Customer Service Providers...
          */
         Overtrue\LaravelWechat\ServiceProvider::class,
+        Frozennode\Administrator\AdministratorServiceProvider::class,
 
     ],
 
