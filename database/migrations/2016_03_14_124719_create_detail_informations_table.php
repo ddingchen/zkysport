@@ -23,7 +23,7 @@ class CreateDetailInformationsTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('information_id')->references('id')->on('informations');
+            $table->foreign('information_id')->references('id')->on('informations')->onDelete('cascade');
             $table->foreign('sub_district_id')->references('id')->on('sub_districts');
             $table->foreign('housing_estate_id')->references('id')->on('housing_estates');
         });

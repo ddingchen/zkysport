@@ -16,12 +16,13 @@ class CreateInformationsTable extends Migration
             $table->increments('id');
             $table->integer('activity_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->boolean('paid');
+            $table->integer('payment_id')->unsigned()->nullable();
             // $table->integer('detail_information_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('activity_id')->references('id')->on('activities');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('payment_id')->references('id')->on('payments');
             // $table->foreign('detail_information_id')->references('id')->on('detail_informations');
         });
     }

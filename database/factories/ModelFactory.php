@@ -16,8 +16,8 @@ use Carbon\Carbon;
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'open_id' => str_random(10),
-        'nickname' => $faker->name,
-        'head_image' => $faker->imageUrl(130, 130),
+        // 'nickname' => $faker->name,
+        // 'head_image' => $faker->imageUrl(130, 130),
     ];
 });
 
@@ -28,7 +28,7 @@ $factory->define(App\Activity::class, function (Faker\Generator $faker) {
     $expired = $dateTo->diffInDays() > 0;
     return [
         'title' => $faker->name,
-        'banner' => $faker->imageUrl(650, 300),
+        'banner' => 'RGeyCVRlGIxj7WEPWfYfTt380SZTvAXn.jpeg', //$faker->imageUrl(650, 300),
         'desc' => $faker->paragraph(),
         'ticket_price' => 0.01,
         'require_information' => true,
@@ -41,14 +41,14 @@ $factory->define(App\Activity::class, function (Faker\Generator $faker) {
 $factory->define(App\Information::class, function (Faker\Generator $faker) {
     return [
         'user_id' => App\User::all()->random()->id,
-        'paid' => $faker->boolean,
+        // 'payment_id' => null,
     ];
 });
 
 $factory->define(App\DetailInformation::class, function (Faker\Generator $faker) {
     return [
         'realname' => $faker->name,
-        'tel' => $faker->name,
+        'tel' => $faker->phoneNumber,
         'sub_district_id' => App\SubDistrict::all()->random()->id,
         'housing_estate_id' => App\HousingEstate::all()->random()->id,
     ];

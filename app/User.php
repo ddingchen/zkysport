@@ -2,14 +2,19 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Hash;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     protected $table = 'users';
 
-    protected $fillable = ['open_id', 'nickname', 'head_image'];
+    protected $fillable = ['name', 'email', 'password', 'open_id'];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     public function scopeInSession($query)
     {
@@ -19,4 +24,10 @@ class User extends Model
         $openId = session('wechat.oauth_user')->id;
         return $query->where('open_id', $openId)->firstOrFail();
     }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
 }

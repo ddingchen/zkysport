@@ -12,13 +12,13 @@ class DetailInformation extends Model
 
     public function subDistrict()
     {
-        return $this->hasOne('App\SubDistrict', 'sub_district_id');
+        return $this->belongsTo('App\SubDistrict', 'sub_district_id');
     }
 
     public function housingEstate()
     {
 
-        return $this->hasOne('App\HousingEstate', 'housing_estate_id');
+        return $this->belongsTo('App\HousingEstate', 'housing_estate_id');
     }
 
     public function information()

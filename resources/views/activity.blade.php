@@ -11,7 +11,7 @@
     @foreach($activities as $activity)
     <a href="activity/{{$activity->id}}">
         <div>
-            <img src="{{$activity->banner}}"/>
+            <img src="/uploads/activities/originals/{{$activity->banner}}"/>
         </div>
     </a>
     @endforeach

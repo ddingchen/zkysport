@@ -36,6 +36,7 @@ session(['wechat.oauth_user' => $mockUser]);
 $globalMiddleware = [
     'web',
     // 'wechat.oauth',
+    'user.autoload',
 ];
 
 Route::group(['middleware' => $globalMiddleware], function () {
@@ -44,4 +45,10 @@ Route::group(['middleware' => $globalMiddleware], function () {
     Route::post('activity/{activity}/information', 'InformationController@store');
     Route::get('activity/{activity}/join', 'ActivityController@join');
     Route::resource('activity', 'ActivityController', ['only' => ['index', 'show']]);
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    // Route::get('/home', 'HomeController@index');
 });

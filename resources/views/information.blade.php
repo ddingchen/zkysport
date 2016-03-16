@@ -21,6 +21,10 @@
 	  		<option value="{{$housingEstate->id}}">{{$housingEstate->name}}</option>
 	  	@endforeach
 	  	</select><br/>
+		@if($activity->ticket_price>0)
+		Pay For ${{$activity->ticket_price}}<br/>
+		@endif
+
 	  	<input type="submit" value="Submit"></input>
 	</form>
   </body>

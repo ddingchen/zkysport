@@ -16,5 +16,11 @@ class UserSeeder extends Seeder
         $someone->open_id = 'oVL1qwFi3nd5D2uM4mV6FHeaaEbk';
         $someone->save();
 
+        App\User::create([
+            'name' => 'dc',
+            'email' => '183488175@qq.com',
+            'password' => 'sunjia0820',
+        ]);
+
     }
 }

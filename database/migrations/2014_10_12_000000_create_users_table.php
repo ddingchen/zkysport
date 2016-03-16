@@ -14,10 +14,16 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique()->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            // Weixin attr
             $table->string('open_id');
-            $table->string('nickname');
-            $table->text('head_image');
+            // $table->string('nickname');
+            // $table->text('head_image');
             $table->timestamps();
+
         });
     }
 

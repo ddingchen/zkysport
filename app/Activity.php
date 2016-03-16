@@ -14,4 +14,14 @@ class Activity extends Model
     {
         return $this->hasMany('App\Information', 'activity_id');
     }
+
+    // public function getBannerAttribute($value)
+    // {
+    //     return '/uploads/activities/originals/' . $value;
+    // }
+
+    public function getTotalAttribute($value)
+    {
+        return $this->informations->count();
+    }
 }
