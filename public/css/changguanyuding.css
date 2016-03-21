@@ -1,62 +1,1 @@
-* {
-    padding: 0;
-    margin: 0;
-}
-
-body {
-    background-color: #F0F0F0;
-}
-
-.div_h {
-    height: 50px;
-}
-
-.cgyd1 {
-    width: 100%;
-    margin-bottom: 25px;
-    background-color: #FFFFFF;
-}
-
-.cgyd2 {
-    width: 100%;
-    border-bottom: 1px solid #F0F0F0;
-}
-
-.img{
-    margin: 3.6% 2.6% -1% 4% ;
-    width: 6%;
-}
-
-input{
-    border: none;
-    position: relative;
-    top: -2%;
-}
-
-.cgyd1_1 {
-    background-color: #FFE240;
-    color: #000000;
-    text-align: center;
-    line-height: 50px;
-}
-
-.time{
-    width: 70px;
-    height:69%;
-    border-radius: 5px;
-    background-color: #fef7cb;
-    float: right;
-    margin-right: 2%;
-    text-align: center;
-    margin-top: 2%;
-}
-
-#day{
-    background-color: #FFE240;
-    width: 56px;
-}
-
-.cgyd1_4_you{
-    float: right;
-    margin-top: 4%;
-}
+*{    padding: 0;    margin: 0;    font-family: "microsoft yahei";}html{    font-size: 30%;    color: #707072;    overflow: hidden;}body {    font-size: 2.8rem;    background-color: #F0F0F0;    overflow: hidden;}hr{    width: 100%;    border: none;    height: 1px;    background-color: #F0F0F0;}a{    text-decoration: none;}.div_h {    height: 357%;    line-height: 357%;}.cgyd1 {    width: 100%;    margin-bottom: 6.7%;    background-color: #FFFFFF;    float: left;}.cgyd2 {    width: 100%;}.cgyd2 a{    float: left;    margin-right: 8%;}.img{    margin: 3.6% 2.6% -1% 4% ;    width: 6%;    padding: 0;    float: left;}.img img{    width: 100%;}input{    border: none;}#xiangmu{    position: absolute;    top: 0;    left: 0;    width: 100%;}#xiangmu div{    color: #464950;    background-color: #FFF;}#xiangmu img{    width: 5%;    margin: 4% 4% -1% 40%;}.cgyd1_1 {    background-color: #FFE240;    color: #000000;    text-align: center;}.cgyd3_1{    margin-top: 0;}.input{    color: #707072;    padding: 3.5% 0;    width: 85%;    font-size: 2.8rem;}.num{    line-height: 23px;    height: 23px;    width: 9%;    float: left;    margin-top: 3.3%;    text-align: center;}.num img{    width: 100%;    height: 23px;}#number{    background-color: #fef7cb;}.time{    width: 18%;    line-height: 100%;    border-radius: 5px;    background-color: #fef7cb;    float: left;    margin-right: 2%;    text-align: center;    margin-top: 1%;    padding: 3.5% 0;}#day{    background-color: #FFE240;    width: 15%;}.cgyd1_4_you{    float: right;    margin-right: 4%;}.cgyd1_4_you_2{    width: 4%;    margin-top: 3%;    line-height: 10%;}.cgyd1_4_you img{    margin-top: 10%;    width: 80%;}.anniu{    position: absolute;    top:0;    width: 87%;    padding: 3% 0;    font-size: 3.4rem;    font-family: "微软雅黑 Light";    background-color: #ff612c;    color: #FFFFFF;    border-radius: 5px;    text-align: center;    margin-top: 141%;    margin-left: 6.5%;    margin-bottom: 6%;}.gunlun{    width: 100%;    height: 1000px;    position: absolute;    bottom: 0;    background-color: rgba(0,0,0,0.5);    z-index: 9999;}.gunlun_anniu{    background-color: #FDE140;    position: absolute;    bottom: 250px;    width: 100%;}.gunlun_anniu div{    float: right;    font-size: 2.8rem;    border-radius: 5px;    border-width: 1px;    border-style: solid;    padding: 2% 5%;    margin: 1.3% 2.5% 1.3% 1.3%;    color: #ffffff;}.gunlun_queren{    background-color: #FD612C;    border-color: #FD612C;}.gunlun_quxiao{    border-color: #ffffff;}#gundong1{    height: 250px;    background-color: #FFFFFF;    position: absolute;    bottom: 0;    width: 30%;    margin-left: 5%;    overflow: hidden;}#gundong1 ul li{    transition-duration: 0.3s;    line-height: 50px;    height: 50px;    text-align: center;}#gundong2{    height: 250px;    background-color: #FFFFFF;    position: absolute;    left: 35%;    bottom: 0;    width: 30%;}#gundong2 ul li{    transition-duration: 0.3s;    line-height: 50px;    text-align: center;}#gundong3{    height: 250px;    background-color: #FFFFFF;    position: absolute;    right: 0;    bottom: 0;    width: 30%;    padding-right: 5%;}#gundong3 ul li{    transition-duration: 0.3s;    line-height: 50px;    text-align: center;}.changdi{    position: absolute;    bottom: 0;    height: 1000px;    width: 100%;    background-color: rgba(0,0,0,0.5);}.changdi div{    text-align: center;    position: absolute;    font-size: 2.8rem;    padding-top: 10px;    height: 40px;    width: 100%;    background-color: #ffffff;    color: #464950;}.changdi hr{    background-color: #F0F0F0;}

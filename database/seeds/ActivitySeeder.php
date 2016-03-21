@@ -13,7 +13,7 @@ class ActivitySeeder extends Seeder
     {
 
         factory(App\SubDistrict::class, 5)->create();
-        factory(App\HousingEstate::class, 5)->create();
+        factory(App\HousingEstate::class, 20)->create();
 
         factory(App\Activity::class, 2)->create()->each(function ($activity) {
 

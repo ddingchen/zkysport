@@ -13,7 +13,7 @@ return [
     |
      */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
      */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
      */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://wap.zhongkaiyun.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ return [
     |
      */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY', 'lPoHcCvT76aOXqrHgHYdIidmAqaDqefu'),
 
     'cipher' => 'AES-256-CBC',
 

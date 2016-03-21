@@ -30,7 +30,7 @@
     </div>
 </div>
 <div class="index_2 width_full index_2_height">
-    <a href="changguanyuding.html">
+    <a href="/sport">
         <div><img src="img/yuding.png"><br>场馆预定</div>
     </a>
     <hr class="index_2_height">

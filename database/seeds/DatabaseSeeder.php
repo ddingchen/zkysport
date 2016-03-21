@@ -17,9 +17,11 @@ class DatabaseSeeder extends Seeder
         DB::table('sub_districts')->delete();
         DB::table('housing_estates')->delete();
         DB::table('users')->delete();
+        DB::table('sports')->delete();
 
         $this->call(UserSeeder::class);
         $this->call(ActivitySeeder::class);
+        $this->call(SportSeeder::class);
 
     }
 }

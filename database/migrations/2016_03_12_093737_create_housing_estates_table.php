@@ -14,8 +14,11 @@ class CreateHousingEstatesTable extends Migration
     {
         Schema::create('housing_estates', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('sub_district_id')->unsigned();
             $table->string('name');
             $table->timestamps();
+
+            $table->foreign('sub_district_id')->references('id')->on('sub_districts')->onDelete('cascade');
         });
     }
 

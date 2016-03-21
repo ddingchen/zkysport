@@ -20,6 +20,7 @@ class CreatePaymentsTables extends Migration
             $table->enum('product', ['activity']);
             $table->boolean('paid');
             $table->dateTime('paid_at');
+            $table->integer('vip_id')->nullable();
             $table->boolean('refund');
             $table->dateTime('refund_at');
             $table->timestamps();

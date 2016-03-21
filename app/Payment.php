@@ -12,6 +12,11 @@ class Payment extends Model
 
     public function information()
     {
-        $this->hasOne('App\Information', 'payment_id');
+        return $this->hasOne('App\Information', 'payment_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
     }
 }

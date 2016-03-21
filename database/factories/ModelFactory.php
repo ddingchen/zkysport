@@ -62,6 +62,7 @@ $factory->define(App\SubDistrict::class, function (Faker\Generator $faker) {
 
 $factory->define(App\HousingEstate::class, function (Faker\Generator $faker) {
     return [
+        'sub_district_id' => App\SubDistrict::all()->random()->id,
         'name' => $faker->name,
     ];
 });

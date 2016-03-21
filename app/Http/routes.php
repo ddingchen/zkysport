@@ -45,6 +45,11 @@ Route::group(['middleware' => $globalMiddleware], function () {
     Route::post('activity/{activity}/information', 'InformationController@store');
     Route::get('activity/{activity}/join', 'ActivityController@join');
     Route::resource('activity', 'ActivityController', ['only' => ['index', 'show']]);
+    Route::get('payment/notify', 'PaymentController@notify');
+    Route::get('subdistrict/{subdistrict}/housingestate', 'InformationController@housingEstates');
+    Route::get('sport', 'SportController@index');
+    Route::post('sport', 'SportController@book');
+    Route::get('sport/{sport}/area', 'AreaController@index');
 });
 
 Route::group(['middleware' => 'web'], function () {
