@@ -18,6 +18,7 @@ class CreateSportsTable extends Migration
             $table->boolean('require_number_of_people');
             $table->enum('area_choose_type', ['chart', 'list']);
             $table->enum('booking_time_type', ['period', 'hourly', 'none']);
+            $table->enum('booking_date_after', ['today', 'tomorrow']);
             $table->timestamps();
 
             // $table->primary('id');

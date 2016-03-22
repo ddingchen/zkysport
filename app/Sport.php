@@ -13,7 +13,8 @@ class Sport extends Model
         'name',
         'require_number_of_people',
         'area_choose_type',
-        'booking_time_type'];
+        'booking_time_type',
+        'booking_date_after'];
 
     public function bookingTimeSelects()
     {

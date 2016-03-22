@@ -49,6 +49,7 @@ Route::group(['middleware' => $globalMiddleware], function () {
     Route::get('subdistrict/{subdistrict}/housingestate', 'InformationController@housingEstates');
     Route::get('sport', 'SportController@index');
     Route::post('sport', 'SportController@book');
+    Route::get('sport/{sport}/time', 'SportController@bookingTime');
     Route::get('sport/{sport}/area', 'AreaController@index');
 });
 

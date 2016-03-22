@@ -20,6 +20,7 @@ class SportSeeder extends Seeder
             'require_number_of_people' => false,
             'area_choose_type' => 'chart',
             'booking_time_type' => 'hourly',
+            'booking_date_after' => 'today',
         ]);
         BookingTimeSelect::create([
             'sport_id' => $badminton->id,
@@ -47,6 +48,7 @@ class SportSeeder extends Seeder
             'require_number_of_people' => true,
             'area_choose_type' => 'chart',
             'booking_time_type' => 'hourly',
+            'booking_date_after' => 'tomorrow',
         ]);
         BookingTimeSelect::create([
             'sport_id' => $pingpong->id,
@@ -74,6 +76,7 @@ class SportSeeder extends Seeder
             'require_number_of_people' => false,
             'area_choose_type' => 'list',
             'booking_time_type' => 'none',
+            'booking_date_after' => 'tomorrow',
         ]);
         BookingAreaSelect::create([
             'sport_id' => $basketball->id,

@@ -78,7 +78,7 @@
         </a>
         <div id="day" class="time" type="text">今天</div>
         <div id="time1" class="time" type="text">00:00</div>
-        <a style="width: 3%;height: 2px;background-color: #D1D1D1;color: #D1D1D1;line-height: 0;margin: 6% 0.5% 0 -1.8%;"></a>
+        <a id="time_x"></a>
         <div id="time2" class="time" type="text">00:00</div>
     </div>
 </div>
@@ -106,9 +106,9 @@
             <ul>
                 <li></li>
                 <li></li>
-                <li>今天</li>
-                <li>明天</li>
-                <li>后天</li>
+                @foreach($dateRange as $code=>$name)
+                <li data-id="{{$code}}">{{$name}}</li>
+                @endforeach
                 <li></li>
                 <li></li>
             </ul>
@@ -117,7 +117,7 @@
             <ul>
                 <li></li>
                 <li></li>
-                <li>9:00</li>
+                <li>09:00</li>
                 <li>10:00</li>
                 <li>11:00</li>
                 <li>12:00</li>
@@ -174,5 +174,7 @@
     <div style="bottom: 0" >取消</div>
 </div>
 </form>
+<input type="hidden" id="areaSelectsJson" value="{{ $areaSelectsJson }}" />
+{{ var_dump($errors) }}
 </body>
 </html>
