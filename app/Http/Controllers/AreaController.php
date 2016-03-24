@@ -12,9 +12,10 @@ class AreaController extends Controller
         return view('area', compact('sportId'));
     }
 
-    // public function store(Request $request, $sportId)
-    // {
-    //     // var_dump($request->input('area_id_list'));
-    //     // return 'hello world';
-    // }
+    public function store(Request $request, $sportId)
+    {
+        $allInput = array_merge($request->old(), $request->all());
+        $request->session()->flash('book', $allInput);
+        return redirect()->action('SportController@index');
+    }
 }

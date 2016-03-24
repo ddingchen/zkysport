@@ -39,7 +39,7 @@ return [
     |
      */
 
-    'url' => env('APP_URL', 'http://wap.zhongkaiyun.com'),
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------

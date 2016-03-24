@@ -14,7 +14,8 @@
     <script type="text/javascript" src="{{ asset('js/changdixuanze.js') }}"></script>
 </head>
 <body onload="hhhhhhhhh()">
-<form method="get" action="/sport">
+<form method="post" action="/sport/{{$sportId}}/area">
+{{ csrf_field() }}
 <!--羽毛球场地-->
 <div  hidden class="changdi_x ymq">
     <div class="kong" data-id="1">1</div>
@@ -51,7 +52,7 @@
     <div class="kong ppq_xia" data-id="9"><p>9</p></div>
     <div class="kong ppq_xia" data-id="10"><p>10</p></div>
 </div>
-<input name="area_id_list" type="hidden" id="inp" type="text"/>
+<input name="areas" type="hidden" id="inp" type="text"/>
 <input class="anniu" style="left:6.5%" type="submit" value="确定" />
 </form>
 </body>

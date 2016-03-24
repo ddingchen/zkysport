@@ -52,12 +52,12 @@
 <div class="cgyd1">
     <div class="cgyd2 div_h">
         <img class="img" src="img/user.png"/>
-        <input name="name" id="input1" class="input" type="text" value="{{ old('name') }}" placeholder="预约人姓名">
+        <input name="name" id="input1" class="input" type="text" value="{{ $name }}" placeholder="预约人姓名">
     </div>
     <hr>
     <div class="cgyd2 div_h">
         <img class="img" src="img/mobile.png"/>
-        <input name="tel" id="input2" class="input" type="text" value="{{ old('tel') }}" placeholder="预约电话" value="">
+        <input name="tel" id="input2" class="input" type="text" value="{{ $tel }}" placeholder="预约电话" value="">
     </div>
 </div>
 <div class="cgyd1" style="margin-bottom: 1px;">
@@ -88,13 +88,13 @@
     <div class="cgyd1_4_you cgyd1_4_you_2">
         <img src="img/Shape.png">
     </div>
-    <p id="changdi_haoma" class="cgyd1_4_you">{{ $selectedAreaNames }}</p>
+    <p id="changdi_haoma" class="cgyd1_4_you"></p>
 </div>
-<input name="sport_id" type="hidden" id="leixing" value="{{ old('sport_id') }}"><!--//运动场地类型参数,羽毛球1,乒乓球2,篮球3,足球4-->
-<input name="date" type="hidden" id="xxx" value="{{ old('date') }}"><!--//时间 天-->
-<input name="from" type="hidden"  id="yyy" value="{{ old('from') }}"><!--//开始时间-->
-<input name="to" type="hidden" id="zzz" value="{{ old('to') }}"><!--//结束时间-->
-<input name="areas" type="hidden" id="changdi" value="{{ $selectedAreas }}"><!--//场地号-->
+<input name="sport_id" type="hidden" id="leixing" value="{{ isset($flashInput)?$flashInput['sport_id']:'' }}{{ old('sport_id') }}"><!--//运动场地类型参数,羽毛球1,乒乓球2,篮球3,足球4-->
+<input name="date" type="hidden" id="xxx" value="{{ isset($flashInput)?$flashInput['date']:'' }}{{ old('date') }}"><!--//时间 天-->
+<input name="from" type="hidden"  id="yyy" value="{{ isset($flashInput)?$flashInput['from']:'' }}{{ old('from') }}"><!--//开始时间-->
+<input name="to" type="hidden" id="zzz" value="{{ isset($flashInput)?$flashInput['to']:'' }}{{ old('to') }}"><!--//结束时间-->
+<input name="areas" type="hidden" id="changdi" value="{{ isset($flashInput)?$flashInput['areas']:'' }}{{ old('areas') }}"><!--//场地号-->
 <input class="anniu" style="left:0" type="submit" value="提交预约" />
 <div class="gunlun">
     <div style="position: absolute;bottom: 0;height: 250px;width: 100%;background-color: #ffffff;">
@@ -174,7 +174,6 @@
     <div style="bottom: 0" >取消</div>
 </div>
 </form>
-<input type="hidden" id="areaSelectsJson" value="{{ $areaSelectsJson }}" />
-{{ var_dump($errors) }}
+<input type="hidden" id="areaSelectsJson" value="{{$areaSelectsJson}}" />
 </body>
 </html>

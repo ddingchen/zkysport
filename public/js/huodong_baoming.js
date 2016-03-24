@@ -1,0 +1,1 @@
+$(function(){    kuandu();    $(".zf_fs").on("touchstart", function (){        var zf=$(this).attr("data-id");        $(".right").hide();        $("#"+zf).show();        $("#zhifu_fangshi").val(zf);    });});function kuandu(){    var width=$(window).width();    var bili=1/750*width;    var ziti=10*bili;    $("html").css("font-size",ziti+"px");}

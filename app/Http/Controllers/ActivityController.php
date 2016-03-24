@@ -21,16 +21,8 @@ class ActivityController extends Controller
     public function join($id)
     {
         $activity = Activity::findOrFail($id);
-        // go to information page if require
-        if ($activity->require_information) {
-            return redirect()->action('InformationController@index', ['activity' => $id]);
-        }
-        // go to payment page if require
-        if ($activity->ticket_price > 0) {
-            return 'Redirect to payment page.';
-        }
-        // join successfully
-        return 'Join activity successfully.';
+        // go to comfirm information
+        return redirect()->action('InformationController@index', ['activity' => $id]);
     }
 
     // public function information($id)

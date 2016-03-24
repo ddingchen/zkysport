@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('open_id');
             // $table->string('nickname');
             // $table->text('head_image');
+            $table->string('realname')->nullable();
+            $table->string('tel')->nullable();
             $table->timestamps();
 
         });

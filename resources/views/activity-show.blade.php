@@ -19,7 +19,7 @@
 <div class="xia">
     <p class="bmrs">已有20人报名</p>
     <a href="/activity/{{ $activity->id }}/join">
-        <div class="baoming">立即报名</div>
+        <div class="baoming anniu">立即报名</div>
     </a>
 </div>
 </body>

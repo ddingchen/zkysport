@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BookingAreaSelect;
 use App\Sport;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,22 @@ class SportController extends Controller
 {
     public function index(Request $request)
     {
+        $flashInput = session('book');
+        // retrive 'realname','tel'
+        $user = User::inSession();
+        $name = $user->realname;
+        if ($request->old('name')) {
+            $name = $request->old('name');
+        } elseif ($flashInput) {
+            $name = $flashInput['name'];
+        }
+        $tel = $user->tel;
+        if ($request->old('tel')) {
+            $tel = $request->old('tel');
+        } elseif ($flashInput) {
+            $tel = $flashInput['tel'];
+        }
+
         // date select
         $today = Carbon::now();
         $dateRange = [
@@ -31,8 +48,8 @@ class SportController extends Controller
         // retrive selected areas
         $areas = BookingAreaSelect::find(json_decode($request->input('area_id_list')));
         $selectedAreas = $areas ? $areas->implode('id', ',') : '';
-        $selectedAreaNames = $areas ? $areas->implode('title', ',') : '';
-        return view('sport', compact('dateRange', 'selectedAreas', 'areaSelectsJson', 'areaSelects', 'selectedAreaNames'));
+        // $selectedAreaNames = $areas ? $areas->implode('title', ',') : '';
+        return view('sport', compact('name', 'tel', 'dateRange', 'selectedAreas', 'areaSelectsJson', 'areaSelects', 'flashInput'));
     }
 
     public function book(Request $request)
@@ -57,7 +74,7 @@ class SportController extends Controller
         ];
         $this->validate($request, $role);
 
-        $request->flash();
+        //$request->flash();
         return back();
     }
 

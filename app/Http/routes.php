@@ -25,7 +25,6 @@ Route::any('/wechat', 'WechatController@serve');
 |
  */
 
-//$openId = 'oVL1qwFi3nd5D2uM4mV6FHeaaEbk';
 $mockUser = new Overtrue\Socialite\User([
     'id' => 'oVL1qwFi3nd5D2uM4mV6FHeaaEbk',
     'nickname' => 'D.C',
@@ -51,6 +50,7 @@ Route::group(['middleware' => $globalMiddleware], function () {
     Route::post('sport', 'SportController@book');
     Route::get('sport/{sport}/time', 'SportController@bookingTime');
     Route::get('sport/{sport}/area', 'AreaController@index');
+    Route::post('sport/{sport}/area', 'AreaController@store');
 });
 
 Route::group(['middleware' => 'web'], function () {

@@ -1,0 +1,1 @@
+/** * Created by dell on 2016-03-21. */$(function () {    gaodu();});function gaodu(){    //var height=$(window).height();    var width=$(window).width();    var bili=1/750*width;//页面比例    var ziti=10*bili;//字体自适应参数    $("html").css("font-size",ziti+"px");}
