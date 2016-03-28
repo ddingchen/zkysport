@@ -13,7 +13,7 @@ return array(
         'title',
         'banner' => array(
             'output' => function ($value) {
-                return '<img width="65" height="30" src="/uploads/activities/originals/' . $value . '"/>';
+                return '<img width="65" height="30" src="' . asset('uploads/activities/originals/' . $value) . '"/>';
             },
         ),
         'desc',

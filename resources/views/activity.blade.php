@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width,user-scalable=no" name="viewport">
     <link rel="stylesheet" type="text/css" href="css/huodong.css"/>
-    <title>Title</title>
+    <title>比赛活动</title>
 </head>
 <body>
 <div class="huodong">

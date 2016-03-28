@@ -13,7 +13,7 @@
 
 // 服务器验证接口
 Route::any('/wechat', 'WechatController@serve');
-
+Route::post('payment/notify', 'PaymentController@notify');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -24,19 +24,27 @@ Route::any('/wechat', 'WechatController@serve');
 | kernel and includes session state, CSRF protection, and more.
 |
  */
-
-$mockUser = new Overtrue\Socialite\User([
-    'id' => 'oVL1qwFi3nd5D2uM4mV6FHeaaEbk',
-    'nickname' => 'D.C',
-    'avatar' => 'http://wx.qlogo.cn/mmopen/klGHad9cnXwZkCYUuwhruNoB7Q5Xwc8TtyhcJGAQCaUJ8WWY8m4D9vNQo0Giby22cPeXmgEyMssEibQhNQRSXibEgliaiaY0UyqgR/0',
-]);
-session(['wechat.oauth_user' => $mockUser]);
-
 $globalMiddleware = [
     'web',
-    // 'wechat.oauth',
-    'user.autoload',
 ];
+
+// add wechat.oauth middleware if in production env
+$isProductionEnv = config('app.env') == 'production';
+if ($isProductionEnv) {
+    $globalMiddleware[] = 'wechat.oauth';
+    Log::info('Production env set up.');
+} else {
+    $mockUser = new Overtrue\Socialite\User([
+        'id' => 'oVL1qwFi3nd5D2uM4mV6FHeaaEbk',
+        'nickname' => 'D.C-Test',
+        'avatar' => 'http://wx.qlogo.cn/mmopen/klGHad9cnXwZkCYUuwhruNoB7Q5Xwc8TtyhcJGAQCaUJ8WWY8m4D9vNQo0Giby22cPeXmgEyMssEibQhNQRSXibEgliaiaY0UyqgR/0',
+    ]);
+    session(['wechat.oauth_user' => $mockUser]);
+    Log::info('Local env set up.');
+}
+
+// add user profile autoload middleware
+$globalMiddleware[] = 'user.autoload';
 
 Route::group(['middleware' => $globalMiddleware], function () {
     Route::get('/', 'HomeController@index');
@@ -44,13 +52,16 @@ Route::group(['middleware' => $globalMiddleware], function () {
     Route::post('activity/{activity}/information', 'InformationController@store');
     Route::get('activity/{activity}/join', 'ActivityController@join');
     Route::resource('activity', 'ActivityController', ['only' => ['index', 'show']]);
-    Route::get('payment/notify', 'PaymentController@notify');
+    Route::get('payment/wxpub', 'PaymentController@payByWxpub');
     Route::get('subdistrict/{subdistrict}/housingestate', 'InformationController@housingEstates');
     Route::get('sport', 'SportController@index');
     Route::post('sport', 'SportController@book');
     Route::get('sport/{sport}/time', 'SportController@bookingTime');
     Route::get('sport/{sport}/area', 'AreaController@index');
     Route::post('sport/{sport}/area', 'AreaController@store');
+    // Route::get('vip', 'VipController@index');
+    Route::get('vip/bind', 'VipController@bind');
+    Route::resource('vip', 'VipController');
 });
 
 Route::group(['middleware' => 'web'], function () {

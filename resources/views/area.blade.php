@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/changdixuanze.css') }}"/>
-    <title>Title</title>
+    <title>选择场地</title>
     <script type="text/javascript" src="{{ asset('js/jquery-1.7.2.min.js') }}"></script>
     <script type="text/javascript">
         var leixing=1;//要PHP在这里输出一下,输出var leixing=$_GET('x')

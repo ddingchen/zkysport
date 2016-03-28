@@ -7,7 +7,7 @@
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
-    <title>Title</title>
+    <title>中铠城市运动公园</title>
 </head>
 
 <body>
@@ -38,8 +38,8 @@
         <div><img src="img/shangcheng.png"><br>比赛活动</div>
     </a>
     <hr class="index_2_height">
-    <a>
-        <div><img src="img/vip.png"><br>会员卡</div>
+    <a href="vip">
+        <div><img src="img/vip.png"><br>我的会员卡</div>
     </a>
     <hr style="width: 100%;height: 1px;">
     <a>

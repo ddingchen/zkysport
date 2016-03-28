@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="stylesheet" type="text/css" href="css/changguanyuding.css?1"/>
-    <title>Title</title>
+    <title>场馆预订</title>
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/iscroll.js"></script>
     <script type="text/javascript">

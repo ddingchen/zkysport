@@ -1,52 +1,1 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-    	$(function(){
-    		$('select[name="sub_district_id"]').change(function(){
-    			$.get('/subdistrict/'+$(this).val()+'/housingestate', function(list){
-    				$('select[name="housing_estate_id"]').empty();
-    				for(var i in list){
-    					$('select[name="housing_estate_id"]')
-    						.append("<option value='"+list[i].id+"'>"+list[i].name+"</option>");
-    				}
-    			});
-    		})
-    	})
-    </script>
-    <title>信息录入</title>
-  </head>
-  <body>
-  	<form method="post" action="/activity/{{$activity->id}}/information">
-  		<label>Require:</label><br/>
-      {{ csrf_field() }}
-	  	Name: <input type="text" name="realname"/><br/>
-	  	Tel: <input type="text" name="tel"/><br/>
-      <br/><br/>
-      <label>Option:</label><br/>
-	  	Sub District: <select name="sub_district_id">
-	  	@foreach($subDistricts as $subDistrict)
-	  		<option value="{{$subDistrict->id}}">{{$subDistrict->name}}</option>
-	  	@endforeach
-	  	</select><br/>
-	  	Housing Estate: <select name="housing_estate_id">
-		@foreach($housingEstates as $housingEstate)
-	  		<option value="{{$housingEstate->id}}">{{$housingEstate->name}}</option>
-	  	@endforeach
-	  	</select><br/>
-		@if($activity->ticket_price>0)
-      <br/><br/>
-      <label>Amount:</label><br/>
-		${{$activity->ticket_price}}<br/>
-		@endif
-
-      <br/><br/>
-	  <input type="submit" value="Submit"></input>
-
-	</form>
-  </body>
-</html>
+<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport"          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>    <meta name="apple-mobile-web-app-capable" content="yes"/>    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>    <link rel="stylesheet" type="text/css" href="{{asset("css/huodong_baoming.css?1")}}"/>    <script type="text/javascript" src="{{asset("js/jquery-1.7.2.min.js")}}"></script>    <script type="text/javascript" src="{{asset("js/huodong_baoming.js")}}?3000"></script>    <title>报名信息</title></head><body><form method="post" action="">{{ csrf_field() }}<div class="div">    <img src="{{asset("img/user.png")}}">    <input name="name" type="text" placeholder="请填写真实姓名" value="{{ $name }}"></div><div class="div">    <img src="{{asset("img/mobile.png")}}">    <input name="tel" type="text" placeholder="请填写联系电话" value="{{ $tel }}"></div>@if($ticketPrice>0)<div class="div">    <img src="{{asset("img/information.png")}}">    <a>活动费用:{{$ticketPrice}}/人</a></div><div class="div2">支付方式</div><div class="div div_zhifu"  data-id="weixin">    <img src="{{asset("img/weixin.png")}}">    <a>微信支付</a>    <img class="right" id="weixin" src="{{asset("img/sign.png")}}"></div><input name="pay_method" hidden id="zhifu_fangshi" value="weixin">@endif<input class="anniu" type="submit" value="确认报名"></form></body></html>

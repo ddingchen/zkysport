@@ -26,7 +26,7 @@ return [
     |
      */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'sqlsrv'),
 
     /*
     |--------------------------------------------------------------------------
@@ -76,6 +76,16 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
+        ],
+
+        'sqlsrv' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST', '192.168.100.12'),
+            'database' => env('DB_DATABASE', 'mpsport'),
+            'username' => env('DB_USERNAME', 'sa'),
+            'password' => env('DB_PASSWORD', '123456'),
+            'charset' => 'utf8',
+            'prefix' => '',
         ],
 
     ],

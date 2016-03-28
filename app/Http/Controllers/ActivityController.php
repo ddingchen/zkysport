@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\User;
 
 class ActivityController extends Controller
 {
@@ -15,7 +16,16 @@ class ActivityController extends Controller
     public function show($id)
     {
         $activity = Activity::findOrFail($id);
-        return view('activity-show', compact('activity'));
+        $user = User::inSession();
+        $paid = false;
+        $information = $activity->informations->where('user_id', $user->id)->first();
+        if ($information) {
+            $payment = $information->payment;
+            if ($payment) {
+                $paid = $payment->paid;
+            }
+        }
+        return view('activity-show', compact('activity', 'paid'));
     }
 
     public function join($id)
