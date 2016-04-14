@@ -3,19 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Payment;
+use Illuminate\Http\Request;
 use Log;
 use Wechat;
 
 class PaymentController extends Controller
 {
 
-    public function payByWxpub()
+    public function payByWxpub(Request $request)
     {
-
+        $successCallback = session('success_callback');
+        $failCallback = session('fail_callback');
+        if (!$request->session()->get('newpayflow', false)) {
+            return redirect($failCallback);
+        }
         $jsApiParameters = Wechat::payment()->configForPayment(session('prepay_id'));
-        $callback = session('wxpub_success');
-        Log::info('callback=' . $callback);
-        return view('pay-weixin', compact('jsApiParameters', 'callback'));
+        return response()->view('pay-weixin', compact('jsApiParameters', 'successCallback', 'failCallback'))
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function notify()
@@ -40,10 +46,8 @@ class PaymentController extends Controller
             // 用户是否支付成功
             if ($successful) {
                 // 不是已经支付状态则修改为已经支付状态
-                $payment->paid_at = time(); // 更新支付时间为当前时间
-                $payment->paid = true;
+                $payment->successCallbackForWxpub();
             }
-            $payment->save(); // 保存订单
 
             return true; // 返回处理完成
         });

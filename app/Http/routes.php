@@ -32,40 +32,84 @@ $globalMiddleware = [
 $isProductionEnv = config('app.env') == 'production';
 if ($isProductionEnv) {
     $globalMiddleware[] = 'wechat.oauth';
-    Log::info('Production env set up.');
 } else {
     $mockUser = new Overtrue\Socialite\User([
         'id' => 'oVL1qwFi3nd5D2uM4mV6FHeaaEbk',
         'nickname' => 'D.C-Test',
         'avatar' => 'http://wx.qlogo.cn/mmopen/klGHad9cnXwZkCYUuwhruNoB7Q5Xwc8TtyhcJGAQCaUJ8WWY8m4D9vNQo0Giby22cPeXmgEyMssEibQhNQRSXibEgliaiaY0UyqgR/0',
+        'token' => new Overtrue\Socialite\AccessToken(['access_token' => 'abc']),
     ]);
+
     session(['wechat.oauth_user' => $mockUser]);
-    Log::info('Local env set up.');
 }
 
 // add user profile autoload middleware
 $globalMiddleware[] = 'user.autoload';
 
 Route::group(['middleware' => $globalMiddleware], function () {
+    // home
     Route::get('/', 'HomeController@index');
-    Route::get('activity/{activity}/information', 'InformationController@index');
-    Route::post('activity/{activity}/information', 'InformationController@store');
-    Route::get('activity/{activity}/join', 'ActivityController@join');
-    Route::resource('activity', 'ActivityController', ['only' => ['index', 'show']]);
+
+    // activity
+    Route::get('activity', ['as' => 'activity', 'uses' => 'ActivityController@index']);
+    Route::get('activity/{id}', ['as' => 'activity.show', 'uses' => 'ActivityController@show']);
+    Route::get('activity/{id}/join', 'ActivityController@join');
+    Route::get('activity/{id}/information', 'InformationController@index');
+    Route::post('activity/{id}/information', 'InformationController@store');
+
+    // payment
     Route::get('payment/wxpub', 'PaymentController@payByWxpub');
-    Route::get('subdistrict/{subdistrict}/housingestate', 'InformationController@housingEstates');
+
+    // book
     Route::get('sport', 'SportController@index');
     Route::post('sport', 'SportController@book');
+    Route::get('sport/attempt', 'SportController@attemptAssignAreaholder');
+    Route::post('sport/pay', 'SportController@pay');
     Route::get('sport/{sport}/time', 'SportController@bookingTime');
     Route::get('sport/{sport}/area', 'AreaController@index');
     Route::post('sport/{sport}/area', 'AreaController@store');
+
+    // vip
     // Route::get('vip', 'VipController@index');
-    Route::get('vip/bind', 'VipController@bind');
-    Route::resource('vip', 'VipController');
+    Route::get('vip', 'VipController@index');
+    Route::get('vip/create', 'VipController@create');
+    Route::get('vip/bind', 'VipController@displayBindForm');
+    Route::post('vip/bind', 'VipController@bind');
+    Route::get('vip/buy', 'VipController@buy');
+    Route::get('vip/{cardno}/charge', 'VipController@displayChargeForm');
+    Route::post('vip/{cardno}/charge', 'VipController@charge');
+    Route::get('vip/{cardno}', 'VipController@detail');
+
+    // user center
+    Route::get('user/vip', 'VipController@vipByUser');
+
+    // history
+    Route::get('history/{type}/{sub}', 'HistoryController@index');
+
+    // seller
+    Route::group(['middleware' => 'seller.autoload'], function () {
+        Route::group(['middleware' => 'seller.auth'], function () {
+            Route::get('sell', 'SellController@index');
+            Route::any('sell/qr', 'SellController@getQRCode');
+            Route::get('sell/sold', 'SellController@getSoldCount');
+            Route::get('sell/history', 'SellController@history');
+        });
+        Route::get('sell/auth', 'SellController@login');
+        Route::post('sell/auth', 'SellController@storeName');
+    });
+
 });
 
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
+    // Authentication Routes...
+    $this->get('login', 'Auth\AuthController@showLoginForm');
+    $this->post('login', 'Auth\AuthController@login');
+    $this->get('logout', 'Auth\AuthController@logout');
 
-    // Route::get('/home', 'HomeController@index');
+    // Password Reset Routes...
+    $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+    $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+    $this->post('password/reset', 'Auth\PasswordController@reset');
 });
+
+Route::get('wxpub/menu', 'WechatController@menu');

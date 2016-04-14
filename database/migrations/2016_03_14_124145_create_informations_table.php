@@ -18,12 +18,17 @@ class CreateInformationsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('payment_id')->unsigned()->nullable();
             // $table->integer('detail_information_id')->unsigned()->nullable();
+            $table->integer('seller_id')->unsigned()->nullable();
+
+            $table->string('name');
+            $table->string('tel');
             $table->timestamps();
 
             $table->foreign('activity_id')->references('id')->on('activities');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('payment_id')->references('id')->on('payments');
             // $table->foreign('detail_information_id')->references('id')->on('detail_informations');
+            $table->foreign('seller_id')->references('id')->on('sellers');
         });
     }
 

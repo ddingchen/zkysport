@@ -8,7 +8,9 @@ class Information extends Model
 {
     protected $table = 'informations';
 
-    protected $fillable = ['user_id', 'paid'];
+    protected $fillable = ['user_id', 'seller_id', 'paid', 'name', 'tel'];
+
+    protected $dates = ['created_at'];
 
     public function activity()
     {
@@ -29,5 +31,10 @@ class Information extends Model
     public function payment()
     {
         return $this->belongsTo('App\Payment', 'payment_id');
+    }
+
+    public function seller()
+    {
+        return $this->belongsTo('App\Seller', 'seller_id');
     }
 }

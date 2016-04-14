@@ -38,12 +38,12 @@
         <div><img src="img/shangcheng.png"><br>比赛活动</div>
     </a>
     <hr class="index_2_height">
-    <a href="vip">
-        <div><img src="img/vip.png"><br>我的会员卡</div>
+    <a>
+        <div><img src="img/vip.png"><br>购买会员卡</div>
     </a>
     <hr style="width: 100%;height: 1px;">
-    <a>
-        <div><img src="img/xunikaicon.png"><br>虚拟卡</div>
+    <a href="user/vip">
+        <div><img src="img/xunikaicon.png"><br>我的会员卡</div>
     </a>
     <hr class="index_2_height">
     <a>

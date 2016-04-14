@@ -16,12 +16,18 @@ class InformationController extends Controller
 {
     public function index(Request $request, $activityId)
     {
+        if (!$request->session()->get('newjoinflow', false)) {
+            return redirect('/activity');
+        }
         $activity = Activity::find($activityId);
         $user = User::inSession();
         $name = $request->old('name') ? $request->old('name') : $user->realname;
         $tel = $request->old('tel') ? $request->old('tel') : $user->tel;
         $ticketPrice = $activity->ticket_price;
-        return view('information', compact('activityId', 'name', 'tel', 'ticketPrice'));
+        return response()->view('information', compact('activityId', 'name', 'tel', 'ticketPrice'));
+        // ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        // ->header('Pragma', 'no-cache')
+        // ->header('Expires', '0');
 
         // $subDistricts = SubDistrict::all();
         // $housingEstates = SubDistrict::first()->housingEstates;
@@ -36,6 +42,9 @@ class InformationController extends Controller
 
     public function store(Request $request, $activityId)
     {
+        if (!$request->session()->get('newjoinflow', false)) {
+            return redirect('/activity');
+        }
         $this->validate($request, [
             'name' => 'required|max:255',
             'tel' => 'required|digits:11',
@@ -55,7 +64,12 @@ class InformationController extends Controller
             $information->user()->associate($user);
             $activity->informations()->save($information);
         }
-
+        $information->name = $request->input('name');
+        $information->tel = $request->input('tel');
+        if ($request->session()->has('sellerId')) {
+            $information->seller_id = $request->session()->get('sellerId');
+        }
+        $information->save();
         //store detail information
         // if ($request->require_information) {
         //     $detail = new DetailInformation($request->all());
@@ -88,6 +102,8 @@ class InformationController extends Controller
                 $information->save();
             }
 
+            $request->session()->put('newjoinflow', false);
+            $request->session()->put('newpayflow', true);
             // payment flow
             $isProductionEnv = config('app.env') == 'production';
             if ($isProductionEnv) {
@@ -103,18 +119,19 @@ class InformationController extends Controller
 
                 $order = new Order($attributes);
                 $result = Wechat::payment()->prepare($order);
-                // Log::info('prepay_id' . $result);
+                $request->session()->put('success_callback', '/history/activity/active');
+                $request->session()->put('fail_callback', '/activity/' . $activityId);
                 return redirect('payment/wxpub')->with([
                     'prepay_id' => $result->prepay_id,
-                    'wxpub_success' => '/activity/' . $activityId,
+                    // 'success_callback' => '/history/activity/active',
+                    // 'fail_callback' => '/activity/' . $activityId,
                 ]);
             } else {
                 $p = $information->payment;
                 $p->paid = true;
                 $p->paid_at = Carbon::now();
                 $p->save();
-
-                return redirect('activity/' . $activityId);
+                return redirect('/history/activity/active');
             }
         }
         // join successfully

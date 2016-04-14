@@ -12,16 +12,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('informations')->delete();
-        DB::table('detail_informations')->delete();
+        DB::table('sellers')->delete();
+        DB::table('sell_productions')->delete();
         DB::table('activities')->delete();
-        DB::table('sub_districts')->delete();
-        DB::table('housing_estates')->delete();
         DB::table('users')->delete();
-        DB::table('sports')->delete();
 
         $this->call(UserSeeder::class);
         $this->call(ActivitySeeder::class);
-        $this->call(SportSeeder::class);
+        $this->call(ProductionSeeder::class);
 
     }
 }

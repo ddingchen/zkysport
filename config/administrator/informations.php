@@ -15,30 +15,63 @@ return array(
             'relationship' => 'activity',
             'select' => "(:table).title",
         ),
+        'name',
+        'tel',
         'paid' => array(
             'title' => 'paid',
+            'relationship' => 'payment',
+            'select' => "(:table).paid",
             'output' => function ($value) {
-                return $value ? 'already paid' : 'unpaid';
+                return $value ? 'paid' : '';
             },
         ),
-        'detail' => array(
-            'title' => 'detail',
-            'relationship' => 'detail',
-            'select' => "concat((:table).realname, ' ',(:table).tel)",
+        'paid_at' => array(
+            'title' => 'paid_at',
+            'relationship' => 'payment',
+            'select' => "(:table).paid_at",
+        ),
+        'refund' => array(
+            'title' => 'refund',
+            'relationship' => 'payment',
+            'select' => "(:table).refund",
+            'output' => function ($value) {
+                return $value ? 'refund' : '';
+            },
+        ),
+        'refund_at' => array(
+            'title' => 'refund_at',
+            'relationship' => 'payment',
+            'select' => "(:table).refund_at",
         ),
     ),
     /**
      * The filter set
      */
     'filters' => array(
-        // 'title' => array(
-        //     'title' => 'Title',
-        // ),
+        'activity' => array(
+            'type' => 'relationship',
+            'title' => 'Activity',
+            'name_field' => 'title',
+        ),
+        'payment' => array(
+            'type' => 'relationship',
+            'title' => 'Paid',
+            'name_field' => 'paid',
+        ),
     ),
     /**
      * The editable fields
      */
     'edit_fields' => array(
+        'name' => array(
+            'type' => 'text',
+            'title' => 'Name',
+            'limit' => 20,
+        ),
+        'tel' => array(
+            'type' => 'text',
+            'title' => 'Tel',
+        ),
         // 'title' => array(
         //     'title' => 'Title',
         //     'type' => 'text',
@@ -59,10 +92,10 @@ return array(
         //     'symbol' => '$',
         //     'decimals' => 2,
         // ),
-        'paid' => array(
-            'title' => 'paid',
-            'type' => 'bool',
-        ),
+        // 'paid' => array(
+        //     'title' => 'paid',
+        //     'type' => 'bool',
+        // ),
         // 'start_from' => array(
         //     'title' => 'start_from',
         //     'type' => 'datetime',

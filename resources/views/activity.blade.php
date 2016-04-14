@@ -11,7 +11,7 @@
     @foreach($activities as $activity)
     <a href="activity/{{$activity->id}}">
         <div>
-            <img src="/uploads/activities/originals/{{$activity->banner}}"/>
+            <img @if($activity->expired) class="gray" @endif src="/uploads/activities/wap/{{$activity->banner}}"/>
         </div>
     </a>
     @endforeach

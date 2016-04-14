@@ -2,6 +2,8 @@
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Expires" content="Mon, 20 Jul 2009 23:00:00 GMT" />
     <title>微信支付载入</title>
     <script type="text/javascript">
 	//调用微信JS api 支付
@@ -11,7 +13,12 @@
 			'getBrandWCPayRequest',
 			{!! $jsApiParameters !!},
 			function(res){
-				window.location.href = '{{$callback}}';
+				if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+					window.location.href = '{{$successCallback}}';
+				}else{
+					alert('支付失败');
+					window.location.href = '{{$failCallback}}';
+				}
 			}
 		);
 	}

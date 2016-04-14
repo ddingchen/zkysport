@@ -8,16 +8,17 @@ class Activity extends Model
 {
     protected $table = 'activities';
 
-    protected $fillable = ['title', 'banner', 'desc', 'ticket_price', 'require_information', 'start_from', 'end_to', 'expired'];
+    protected $fillable = ['title', 'banner', 'desc', 'ticket_price', 'require_information', 'start_from', 'end_to', 'expired', 'published'];
+
+    protected $dates = ['start_from', 'end_to', 'created_at'];
 
     public function informations()
     {
         return $this->hasMany('App\Information', 'activity_id');
     }
 
-    // public function getBannerAttribute($value)
-    // {
-    //     return '/uploads/activities/originals/' . $value;
+    // public function getPaidByUserAttribute(){
+    //     return ;
     // }
 
     public function getTotalAttribute($value)

@@ -22,6 +22,7 @@ class CreateActivitiesTable extends Migration
             $table->datetime('start_from');
             $table->datetime('end_to');
             $table->boolean('expired');
+            $table->boolean('published');
             $table->timestamps();
         });
     }

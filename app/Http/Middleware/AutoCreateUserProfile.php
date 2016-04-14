@@ -18,7 +18,7 @@ class AutoCreateUserProfile
     public function handle($request, Closure $next)
     {
         try {
-            $user = User::inSession();
+            User::inSession();
         } catch (ModelNotFoundException $e) {
             if (session()->has('wechat.oauth_user')) {
                 User::create(['open_id' => session('wechat.oauth_user')->id]);

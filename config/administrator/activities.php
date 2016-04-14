@@ -49,10 +49,16 @@ return array(
             'type' => 'image',
             'location' => public_path() . '/uploads/activities/originals/',
             'naming' => 'random',
+            'size_limit' => 1,
+            'sizes' => array(
+                array(650, 300, 'crop', public_path() . '/uploads/activities/wap/', 100),
+                array(360, 200, 'crop', public_path() . '/uploads/activities/wxpub/', 100),
+            ),
         ),
         'desc' => array(
             'title' => 'Description',
-            'type' => 'textarea',
+            // 'type' => 'textarea',
+            'type' => 'wysiwyg',
         ),
         'ticket_price' => array(
             'title' => 'Ticket Price',
@@ -77,4 +83,6 @@ return array(
     'rules' => array(
 
     ),
+
+    'form_width' => 400,
 );

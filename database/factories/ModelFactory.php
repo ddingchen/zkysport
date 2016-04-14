@@ -23,18 +23,20 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Activity::class, function (Faker\Generator $faker) {
     $date = Carbon::instance($faker->dateTimeThisMonth());
-    $dateFrom = $date->copy()->subDays(7);
-    $dateTo = $date->copy()->addDays(7);
-    $expired = $dateTo->diffInDays() > 0;
+    $dateFrom = $date->copy()->subDays(15);
+    $dateTo = $date->copy()->addDays(20);
+    $expired = $dateTo->diffInSeconds(Carbon::now(), false) > 0;
+    $published = Carbon::now()->gt($dateFrom);
     return [
         'title' => $faker->name,
-        'banner' => 'RGeyCVRlGIxj7WEPWfYfTt380SZTvAXn.jpeg', //$faker->imageUrl(650, 300),
+        // 'banner' => 'RGeyCVRlGIxj7WEPWfYfTt380SZTvAXn.jpeg', //$faker->imageUrl(650, 300),
         'desc' => $faker->paragraph(),
         'ticket_price' => 0.01,
         'require_information' => true,
-        'start_from' => $date->copy()->subDays(7),
-        'end_to' => $date->copy()->addDays(7),
-        'expired' => $faker->boolean,
+        'start_from' => $dateFrom,
+        'end_to' => $dateTo,
+        'expired' => $expired,
+        'published' => $published,
     ];
 });
 

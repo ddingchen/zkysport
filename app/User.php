@@ -5,6 +5,7 @@ namespace App;
 use Hash;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Session;
 
 class User extends Authenticatable
 {
@@ -21,13 +22,25 @@ class User extends Authenticatable
         if (!session('wechat.oauth_user')) {
             throw (new ModelNotFoundException)->setModel(get_class($this->model));
         }
-        $openId = session('wechat.oauth_user')->id;
-        return $query->where('open_id', $openId)->firstOrFail();
+        return $query->where('open_id', session('wechat.oauth_user')->id)->firstOrFail();
+    }
+
+    public function getOpenIdAttribute($value)
+    {
+        if (!session('wechat.oauth_user')) {
+            return $value;
+        }
+        return session('wechat.oauth_user')->id;
     }
 
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function seller()
+    {
+        return $this->hasOne('App\Seller');
     }
 
 }

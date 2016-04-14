@@ -80,10 +80,11 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', '192.168.100.12'),
+            'host' => env('DB_HOST', '10.168.220.48'),
+            'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'mpsport'),
             'username' => env('DB_USERNAME', 'sa'),
-            'password' => env('DB_PASSWORD', '123456'),
+            'password' => env('DB_PASSWORD', 'dingjianbin1230'),
             'charset' => 'utf8',
             'prefix' => '',
         ],

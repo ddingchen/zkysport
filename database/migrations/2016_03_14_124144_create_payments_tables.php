@@ -17,15 +17,15 @@ class CreatePaymentsTables extends Migration
             $table->string('out_trade_no', 32);
             $table->float('amount');
             $table->integer('user_id')->unsigned();
-            $table->enum('product', ['activity']);
+            $table->enum('product', ['activity', 'vip_charge', 'vip_buy', 'vip_promotion', 'vip_qr_consume']);
             $table->boolean('paid');
-            $table->dateTime('paid_at');
+            $table->dateTime('paid_at')->nullable();
             $table->integer('vip_id')->nullable();
             $table->boolean('refund');
-            $table->dateTime('refund_at');
+            $table->dateTime('refund_at')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
