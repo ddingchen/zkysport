@@ -16,8 +16,9 @@ class CreatePaymentsTables extends Migration
             $table->increments('id');
             $table->string('out_trade_no', 32);
             $table->float('amount');
+            $table->float('balance')->nullable();
             $table->integer('user_id')->unsigned();
-            $table->enum('product', ['activity', 'vip_charge', 'vip_buy', 'vip_promotion', 'vip_qr_consume']);
+            $table->enum('product', ['book', 'activity', 'vip_charge', 'vip_buy', 'vip_promotion', 'vip_qr_consume']);
             $table->boolean('paid');
             $table->dateTime('paid_at')->nullable();
             $table->integer('vip_id')->nullable();

@@ -1,1 +1,58 @@
-* {    margin: 0;    padding: 0;    font-family: 'Microsoft Yahei', Tahoma, Helvetica, Arial, sans-serif;    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);}input{    -webkit-appearance: none;    border: none;}html{    font-size: 30%;    overflow-x: hidden;    overflow-y: auto;}body{    font-size: 2.8rem;    background-color: #F0F0F0;    padding-bottom: 8%;}.img{    margin: 4% 0 0 4%;    width: 92%;}.anniu{    width: 87%;    padding: 3% 0;    font-size: 3.4rem;    font-family: "微软雅黑 Light";    background-color: #ff612c;    color: #FFFFFF;    border-radius: 5px;    text-align: center;    margin: 11% 6.5%;}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Microsoft Yahei', Tahoma, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+a{
+    text-decoration: none;
+}
+
+input{
+    -webkit-appearance: none;
+    border: none;
+}
+
+html{
+    font-size: 30%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+body{
+    font-size: 2.8rem;
+    background-color: #F0F0F0;
+    padding-bottom: 8%;
+}
+
+.img{
+    margin: 6% 0 0 6%;
+    width: 88%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.yinying{
+    box-shadow: 0 5px 3px #b4b4b4;
+}
+
+.anniu{
+    width: 87%;
+    padding: 3% 0;
+    font-size: 3.4rem;
+    font-family: "微软雅黑 Light";
+    background-color: #ff612c;
+    color: #FFFFFF;
+    border-radius: 5px;
+    text-align: center;
+    margin: 11% 6.5%;
+}
+
+.touming{
+    opacity:0.5;
+}
+
+.img.huikuang{
+    border: 1px solid #EFEFEF;
+}

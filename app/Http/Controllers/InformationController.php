@@ -123,8 +123,6 @@ class InformationController extends Controller
                 $request->session()->put('fail_callback', '/activity/' . $activityId);
                 return redirect('payment/wxpub')->with([
                     'prepay_id' => $result->prepay_id,
-                    // 'success_callback' => '/history/activity/active',
-                    // 'fail_callback' => '/activity/' . $activityId,
                 ]);
             } else {
                 $p = $information->payment;

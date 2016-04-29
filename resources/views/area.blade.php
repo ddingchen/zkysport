@@ -14,6 +14,21 @@
         var leixing='{{$sport}}';//要PHP在这里输出一下,输出var leixing=$_GET('x')
     </script>
     <script type="text/javascript" src="{{ asset('js/changdixuanze.js?2') }}"></script>
+    <script type="text/javascript">
+        (function(window, location) {
+            history.replaceState(null, document.title, location.pathname+"#!/stealingyourhistory");
+            history.pushState(null, document.title, location.pathname);
+
+            window.addEventListener("popstate", function() {
+              if(location.hash === "#!/stealingyourhistory") {
+                history.replaceState(null, document.title, location.pathname);
+                setTimeout(function(){
+                  location.replace("/sport");
+                },0);
+              }
+            }, false);
+        }(window, location));
+    </script>
 </head>
 <body onload="hhhhhhhhh()">
 <form method="post" action="/sport/{{$sport}}/area">
@@ -69,5 +84,12 @@
         <p style="margin-top: 60%;margin-bottom: 0" class="weui_toast_content">请稍候</p>
     </div>
 </div>
+@if(count($errors) > 0)
+<script type="text/javascript">
+    $(function(){
+        alert('{{$errors->first()}}');
+    })
+</script>
+@endif
 </body>
 </html>

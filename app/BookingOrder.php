@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\MpAreaManage;
 use Illuminate\Database\Eloquent\Model;
 
 class BookingOrder extends Model
@@ -19,13 +20,20 @@ class BookingOrder extends Model
         'start_from',
         'end_to',
         'areas',
-        'payment_id'];
+        'payment_id',
+        'origin_amount',
+        'expired_at'];
 
-    protected $dates = ['use_at', 'created_at'];
+    protected $dates = ['use_at', 'created_at', 'expired_at'];
 
     public function payment()
     {
         return $this->belongsTo('App\Payment', 'payment_id');
+    }
+
+    public function areaManager()
+    {
+        return $this->hasOne('App\AreaManager', 'order_id');
     }
 
     public function getAreasDescAttribute()
@@ -60,5 +68,20 @@ class BookingOrder extends Model
     {
         $date = new \Carbon\Carbon($value);
         return $date->format('H:i');
+    }
+
+    public function getIsFinishedAttribute()
+    {
+        return $this->cancel || $this->payment->paid;
+    }
+
+    public function activeBooking()
+    {
+        $sport = $this->sport;
+        $areas = explode(',', $this->areas);
+        foreach ($areas as $areaId) {
+            $code = getAreaCode($sport, $areaId);
+            MpAreaManage::where('sp_sph', $code)->update(['sp_zt' => '预订']);
+        }
     }
 }

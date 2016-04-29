@@ -1,1 +1,117 @@
-*{    padding: 0;    margin: 0;    text-align: center;    word-break: break-all;    font-family: "微软雅黑";    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);}img{    display: block;}input{    -webkit-appearance: none;    border: none;}a{    text-decoration: none;}html{    font-size: 50%;}.huodong div{    border-radius: 10px;    overflow: hidden;    width:88%;    margin: 4% 6%;}img{    width: 100%;}.shang{    padding: 4% 0 2.6% 0;}.biaoti{    margin: 0 auto;    font-size: 3.6rem;    color: #4A4A4A;    font-family: "微软雅黑";}.neirong{    width: 92%;    margin-left: 4%;    font-size: 2.8rem;    color: #4A4A4A;    height: 250px;    overflow: auto;    text-align: left;}.neirong *{    text-align: left;    font-size: 16px;    line-height: 24px;}::-webkit-scrollbar{    width:2%; /*滚动条宽度*/}/*滑道*/::-webkit-scrollbar-track{    background-color:#F0F0F0;    border-radius:10px;}/*滑块*/::-webkit-scrollbar-thumb{    background-color:#d2d2d2; /*滑动条表面*/    border-radius: 10px;;  /*滑动条圆角宽度*/    width: 2%;}.xia{    padding-top: 4%;    padding-bottom: 6%;}.bmrs{    font-size: 2.4rem;    color: #9B9B9B;    padding-top: 1.6%;    padding-bottom: 1.7%;    border-top: 1px solid #ECECEC;}.anniu{    width: 88%;    margin: 0 auto;    padding: 3% 0;    font-size: 3.4rem;    font-family: "微软雅黑 Light";    background-color: #ff612c;    color: #FFFFFF;    border-radius: 5px;}.anniu.disable{    background-color: #b4b4b4;}.gray {    -webkit-filter: grayscale(100%);    -moz-filter: grayscale(100%);    -ms-filter: grayscale(100%);    -o-filter: grayscale(100%);    filter: grayscale(100%);    filter: gray;}
+*{
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    word-break: break-all;
+    font-family: "微软雅黑";
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+img{
+    display: block;
+}
+
+input{
+    -webkit-appearance: none;
+    border: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+html{
+    font-size: 50%;
+}
+
+.huodong div{
+    border-radius: 10px;
+    overflow: hidden;
+    width:88%;
+    margin: 4% 6%;
+}
+
+img{
+    width: 100%;
+}
+
+.shang{
+    padding: 4% 0 2.6% 0;
+}
+
+.biaoti{
+    margin: 0 auto;
+    font-size: 3.6rem;
+    color: #4A4A4A;
+    font-family: "微软雅黑";
+}
+
+.neirong{
+    width: 95%;
+    margin-left: 4%;
+    font-size: 2.8rem;
+    color: #4A4A4A;
+    height: 250px;
+    overflow: auto;
+    text-align: left;
+}
+
+.neirong *{
+    text-align: left;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+
+::-webkit-scrollbar{
+    width:2%; /*滚动条宽度*/
+}
+/*滑道*/
+::-webkit-scrollbar-track{
+    background-color:#F0F0F0;
+    border-radius:10px;
+}
+/*滑块*/
+::-webkit-scrollbar-thumb{
+    background-color:#d2d2d2; /*滑动条表面*/
+    border-radius: 10px;;  /*滑动条圆角宽度*/
+    width: 2%;
+}
+
+.xia{
+    padding-top: 4%;
+    padding-bottom: 6%;
+}
+
+.bmrs{
+    font-size: 2.4rem;
+    color: #9B9B9B;
+    padding-top: 1.6%;
+    padding-bottom: 1.7%;
+    border-top: 1px solid #ECECEC;
+}
+
+.anniu{
+    width: 88%;
+    margin: 0 auto;
+    padding: 3% 0;
+    font-size: 3.4rem;
+    font-family: "微软雅黑 Light";
+    background-color: #ff612c;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.anniu.disable{
+    background-color: #b4b4b4;
+}
+
+
+.gray {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray;
+}

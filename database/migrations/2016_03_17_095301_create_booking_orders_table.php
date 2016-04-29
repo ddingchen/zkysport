@@ -25,6 +25,9 @@ class CreateBookingOrdersTable extends Migration
             $table->time('end_to');
             $table->string('areas');
             $table->integer('payment_id')->unsigned()->nullable();
+            $table->float('origin_amount');
+            $table->datetime('expired_at')->nullable();
+            $table->boolean('cancel');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

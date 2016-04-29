@@ -14,12 +14,20 @@ class CreateChargeRecordsTable extends Migration
     {
         Schema::create('charge_records', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('card_no');
+            $table->integer('user_id')->unsigned();
+            $table->string('card_no')->nullable();
             $table->float('amount');
+            $table->float('balance_after_charge');
             $table->integer('payment_id')->unsigned()->nullable();
+            $table->boolean('is_new');
+            $table->string('vip_id')->nullable();
+            $table->string('name');
+            $table->string('tel');
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('payment_id')->references('id')->on('payments');
+
         });
     }
 

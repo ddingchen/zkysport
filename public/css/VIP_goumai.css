@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: #464950;
+    font-size: 2.8rem;
+    font-family: 'Microsoft Yahei', Tahoma, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input {
+    -webkit-appearance: none;
+}
+
+html {
+    font-size: 3.6%;
+}
+
+pre{
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    display: block;
+}
+
+li{
+    list-style-type: none;
+}
+
+ul li:before{
+    content: '●';
+    font-size: 3rem;
+    margin-right: 2%;
+}
+
+.tou{
+    width: 100%;
+    margin-bottom: 4%;
+}
+
+.div{
+    padding:0 6.5% 0 6.5%;
+    width: 87%;
+    margin-bottom: 3%;
+}
+
+.div p{
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+p a{
+    margin: 5px;
+    display:inline-block;
+    width: 5%;
+    height: 1px;
+    background-color: #D1D1D1;
+    color: #D1D1D1;
+    line-height: 0;
+}
+
+.hui{
+    background-color: #EFEFEF;
+    padding: 3% 0 0 0;
+}
+
+.hui .div{
+    padding:0 5.5% 0 6.5%;
+    margin-bottom: 0;
+}
+
+.hui .div2{
+    height: 150px;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar{
+    width:2%; /*滚动条宽度*/
+}
+/*滑道*/
+::-webkit-scrollbar-track{
+    background-color:#D1D1D1;
+    border-radius:20px;
+}
+/*滑块*/
+::-webkit-scrollbar-thumb{
+    background-color:#B3B3B3; /*滑动条表面*/
+    border-radius: 10px;;  /*滑动条圆角宽度*/
+    width: 2%;
+}
+
+#tongyi{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    height: 30px;
+}
+
+.fang{
+    display: inline-block;
+    width: 24px;
+}
+
+.fang.weui_icon_success_no_circle:before {
+    font-size: 2rem;
+    padding: 4px;
+    color: #ffffff;
+    background-color: #00A6C7;
+    border-radius: 100px;
+}
+
+.tongyi{
+    display:inline-block;
+    line-height: 16px;
+    height: 16px;
+    color: #707072;
+    font-size: 2.0rem;
+}
+
+.shoujia{
+    margin: 2% 0;
+}
+
+.shoujia o{
+    font-size: 2.4rem;
+}
+
+.shoujia .zi{
+    font-size: 3.6rem;
+}
+
+.anniu{
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    padding: 4% 0;
+    color: #ffffff;
+    font-size: 3.4rem;
+    margin-bottom: 5%;
+}
+
+.lan li:before{
+    color: #5DC3F8;
+}
+
+.lan.fang.weui_icon_success_no_circle:before {
+    background-color: #5DC3F8;
+}
+
+.an.lan.fang.weui_icon_success_no_circle:before {
+    color: #5DC3F8;
+}
+
+.an.lan.weui_icon_success:before{
+    background-color: #5DC3F8;
+    font-size: 3.7rem;
+}
+
+.lan.zi{
+    color: #5DC3F8;
+}
+
+.lan.beijing{
+    background-color: #5DC3F8;
+}
+
+.hong li:before{
+    color: #FD612C;
+}
+
+.hong.fang.weui_icon_success_no_circle:before {
+    background-color: #FD612C;
+}
+
+.an.hong.fang.weui_icon_success_no_circle:before {
+    color: #FD612C;
+}
+
+.hong.zi{
+    color: #FD612C;
+}
+
+.hong.beijing{
+    background-color: #FD612C;
+}
+
+.hei li:before{
+    color: #585C62;
+}
+
+.hei.fang.weui_icon_success_no_circle:before {
+    background-color: #585C62;
+}
+
+.an.hei.fang.weui_icon_success_no_circle:before {
+    color: #585C62;
+}
+
+.hei.zi{
+    color: #585C62;
+}
+
+.hei.beijing{
+    background-color: #585C62;
+}

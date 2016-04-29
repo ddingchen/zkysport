@@ -8,8 +8,22 @@
     <script type="text/javascript" src="js/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
     <title>中铠城市运动公园</title>
-</head>
+    <script type="text/javascript">
+        (function(window, location) {
+            history.replaceState(null, document.title, location.pathname+"#!/stealingyourhistory");
+            history.pushState(null, document.title, location.pathname);
 
+            window.addEventListener("popstate", function() {
+              if(location.hash === "#!/stealingyourhistory") {
+                history.replaceState(null, document.title, location.pathname);
+                setTimeout(function(){
+                  location.replace("/");
+                },0);
+              }
+            }, false);
+        }(window, location));
+    </script>
+</head>
 <body>
 <div class="index_1 index_1_height width_full">
     <div class="index_1_zuo index_1_height">
@@ -22,11 +36,11 @@
         </div>
     </div>
     <div class="index_1_you index_1_height">
-        <div class=""><a>余额</a><b>0</b></div>
+        <a href="/history/account/recharge"><div class=""><o>余额</o><b>{{floatval($amount)}}</b></div></a>
         <hr>
-        <div class=""><a>虚拟卡</a><b>0</b></div>
+        <a href="/user/card"><div class=""><o>虚拟卡</o><b>{{$cardCount}}</b></div></a>
         <hr>
-        <div class=""><a>积分</a><b>0</b></div>
+        <div class=""><o>积分</o><b>0</b></div>
     </div>
 </div>
 <div class="index_2 width_full index_2_height">
@@ -38,15 +52,15 @@
         <div><img src="img/shangcheng.png"><br>比赛活动</div>
     </a>
     <hr class="index_2_height">
-    <a>
+    <a href="vip">
         <div><img src="img/vip.png"><br>购买会员卡</div>
     </a>
     <hr style="width: 100%;height: 1px;">
-    <a href="user/vip">
+    <a href="user/card">
         <div><img src="img/xunikaicon.png"><br>我的会员卡</div>
     </a>
     <hr class="index_2_height">
-    <a>
+    <a href="/history/book/finish">
         <div><img src="img/dingdanicon.png"><br>我的订单</div>
     </a>
     <hr class="index_2_height">

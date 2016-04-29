@@ -14,6 +14,7 @@
 // 服务器验证接口
 Route::any('/wechat', 'WechatController@serve');
 Route::post('payment/notify', 'PaymentController@notify');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -27,14 +28,13 @@ Route::post('payment/notify', 'PaymentController@notify');
 $globalMiddleware = [
     'web',
 ];
-
 // add wechat.oauth middleware if in production env
 $isProductionEnv = config('app.env') == 'production';
 if ($isProductionEnv) {
     $globalMiddleware[] = 'wechat.oauth';
 } else {
     $mockUser = new Overtrue\Socialite\User([
-        'id' => 'oVL1qwFi3nd5D2uM4mV6FHeaaEbk',
+        'id' => 'iVL1qwFi3nd5D2uM4mV6FHeaaEbk',
         'nickname' => 'D.C-Test',
         'avatar' => 'http://wx.qlogo.cn/mmopen/klGHad9cnXwZkCYUuwhruNoB7Q5Xwc8TtyhcJGAQCaUJ8WWY8m4D9vNQo0Giby22cPeXmgEyMssEibQhNQRSXibEgliaiaY0UyqgR/0',
         'token' => new Overtrue\Socialite\AccessToken(['access_token' => 'abc']),
@@ -49,6 +49,7 @@ $globalMiddleware[] = 'user.autoload';
 Route::group(['middleware' => $globalMiddleware], function () {
     // home
     Route::get('/', 'HomeController@index');
+    Route::get('/playground', 'HomeController@playground');
 
     // activity
     Route::get('activity', ['as' => 'activity', 'uses' => 'ActivityController@index']);
@@ -63,25 +64,32 @@ Route::group(['middleware' => $globalMiddleware], function () {
     // book
     Route::get('sport', 'SportController@index');
     Route::post('sport', 'SportController@book');
-    Route::get('sport/attempt', 'SportController@attemptAssignAreaholder');
+    Route::get('sport/flash', 'SportController@flashInput');
+    Route::post('sport/attempt', 'SportController@attemptAssignAreaholder');
+    Route::get('sport/pay', 'SportController@displayPayForm');
     Route::post('sport/pay', 'SportController@pay');
     Route::get('sport/{sport}/time', 'SportController@bookingTime');
     Route::get('sport/{sport}/area', 'AreaController@index');
     Route::post('sport/{sport}/area', 'AreaController@store');
+    Route::get('forget', 'SportController@forgetSession');
 
+    Route::get('order/{id}/pay', 'SportController@payAgain');
     // vip
     // Route::get('vip', 'VipController@index');
-    Route::get('vip', 'VipController@index');
+    Route::get('vip', 'VipController@vips');
     Route::get('vip/create', 'VipController@create');
     Route::get('vip/bind', 'VipController@displayBindForm');
     Route::post('vip/bind', 'VipController@bind');
-    Route::get('vip/buy', 'VipController@buy');
-    Route::get('vip/{cardno}/charge', 'VipController@displayChargeForm');
-    Route::post('vip/{cardno}/charge', 'VipController@charge');
-    Route::get('vip/{cardno}', 'VipController@detail');
+    Route::get('vip/{id}/buy', 'VipController@displayBuyForm');
+    Route::post('vip/{id}/buy', 'VipController@buy');
+    Route::get('vip/{id}', 'VipController@detail');
 
     // user center
-    Route::get('user/vip', 'VipController@vipByUser');
+    Route::get('user/card', 'VipController@vipsOfUser');
+    Route::get('user/card/{id}/charge', 'VipController@displayChargeForm');
+    Route::post('user/card/{id}/charge', 'VipController@charge');
+    Route::get('user/card/{id}/active', 'VipController@active');
+    Route::get('user/card/{id}', 'VipController@account');
 
     // history
     Route::get('history/{type}/{sub}', 'HistoryController@index');
@@ -112,4 +120,13 @@ Route::group(['middleware' => 'web'], function () {
     $this->post('password/reset', 'Auth\PasswordController@reset');
 });
 
+Route::group(['middleware' => 'auth.basic'], function () {
+    $this->get('dc', function () {
+        return 'foo bar';
+    });
+});
+
+Route::get('card/{no}/auth/{secret}', 'VipController@auth');
+
 Route::get('wxpub/menu', 'WechatController@menu');
+Route::get('wxpub/material', 'WechatController@material');

@@ -3,53 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\ChargeRecord;
+use App\MpCard;
+use App\MpVip;
 use App\Payment;
 use App\User;
-use Carbon\Carbon;
-use DB;
-use EasyWeChat\Payment\Order;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Validator;
 use Wechat;
 
 class VipController extends Controller
 {
-    public function vipByUser()
+
+    public function vips()
     {
-        $user = User::inSession();
-        $openId = $user->openId;
-        $vipDist = collect(config('mp.vip'));
-        $data = DB::connection('mysql')->select("select hy_bh,hy_hydj from hy where hy_wxkh='" . $openId . "'");
-        $cards = collect($data)->map(function ($item, $key) use ($vipDist) {
-            $vipInfo = $vipDist->where('id', '' . $item->hy_hydj)->first();
-            return [
-                'no' => $item->hy_bh,
-                'type' => $vipInfo['code'],
-                'img' => $vipInfo['card_img_url'],
-            ];
-        });
-        return view('vip', compact('cards'));
+        $vips = MpVip::all();
+        return view('vip', compact('vips'));
     }
 
-    public function detail($cardNo)
+    public function detail($vipId)
     {
-        if (!$card = $this->isCardOwner($cardNo)) {
+        $vip = MpVip::findById($vipId);
+        return view('vip-detail', compact('vip'));
+    }
+
+    public function vipsOfUser()
+    {
+        $cards = MpCard::byUser(User::inSession())->get();
+        return view('user-card', compact('cards'));
+    }
+
+    public function account($cardNo)
+    {
+        $card = MpCard::findByNo($cardNo);
+        $user = User::inSession();
+        if (!$card->hadByUser($user)) {
             return 'You are not card owner.';
         }
-        $vipInfo = collect(config('mp.vip'))->where('id', '' . $card->Hy_hydj)->first();
-
-        $qrcode = Wechat::qrcode();
-        $scene = str_pad($cardNo, 8, '0', STR_PAD_LEFT);
-        $result = $qrcode->temporary(intval('1' . $scene), 3600);
-        $ticket = $result->ticket;
-        $card = [
-            'no' => $cardNo,
-            'amount' => $card->hy_kje,
-            'name' => $vipInfo['name'],
-            'desc' => $vipInfo['desc'],
-            'qr' => $qrcode->url($ticket),
-        ];
-        return view('vip-detail', compact('card'));
+        $qr = $this->getQRUrl($cardNo, $user->salt);
+        return view('vip-account', compact('card', 'qr'));
     }
 
     public function create()
@@ -71,138 +63,199 @@ class VipController extends Controller
         $validator->after(function ($validator) use ($request) {
             $cardNo = $request->input('card_no');
             $tel = $request->input('tel');
-            // check if record exist
-            if (!$this->validCardInfo($cardNo, $tel)) {
-                $validator->errors()->add('card_no', '信息匹配失败，卡号或电话号码有误。');
+            try {
+                $card = MpCard::findByNo($cardNo);
+            } catch (ModelNotFoundException $e) {
+                $validator->errors()->add('invalid_card_info', '信息匹配失败，卡号有误。');
+                return;
+            }
+            // check credentials
+            if ($card->tel != $tel) {
+                $validator->errors()->add('invalid_card_info', '信息匹配失败，电话号码有误。');
                 return;
             }
             // check if card already bound
-            if ($this->alreadyBoundToWxpub($cardNo)) {
-                $validator->errors()->add('card_no', '该卡已被绑定');
+            if ($card->openId) {
+                $validator->errors()->add('card_already_bound', '该卡已被绑定');
                 return;
             }
             // can not bind two or more card with same type
-            if ($this->alreadyHasTheVip($cardNo)) {
-                $validator->errors()->add('card_no', '已绑定过该卡种的卡（同一微信账号，同一卡种，仅能绑定一次）。');
+            if (User::inSession()->alreadyGotTheVip($card->vip->id)) {
+                $validator->errors()->add('same_vip_bind_twice', '已绑定过该卡种的卡（同一微信账号，同一卡种，仅能绑定一次）。');
                 return;
             }
         });
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        // is card owner
-        $this->bindCardToWxpub($request->input('card_no'), User::inSession()->openId);
-        return redirect('user/vip');
-    }
-
-    private function validCardInfo($cardNo, $tel)
-    {
-        return DB::connection('mysql')->table('hy')->where([
-            ['hy_bh', $cardNo],
-            ['hy_dh', $tel],
-        ])->count() > 0;
-    }
-
-    private function alreadyBoundToWxpub($cardNo)
-    {
-        return DB::connection('mysql')->table('hy')->where([
-            ['hy_bh', $cardNo],
-        ])->value('hy_wxkh');
-    }
-
-    private function alreadyHasTheVip($cardNo)
-    {
-        $vipType = DB::connection('mysql')->table('hy')->where('hy_bh', $cardNo)->value('hy_hydj');
-        return DB::connection('mysql')->table('hy')->where([
-            ['hy_wxkh', User::inSession()->openId],
-            ['hy_hydj', $vipType],
-        ])->count() > 0;
-    }
-
-    private function bindCardToWxpub($cardNo, $openId)
-    {
-        DB::connection('mysql')->update('update hy set hy_wxkh=? where hy_bh=?', [$openId, $cardNo]);
+        // bind to wxpub
+        $card = MpCard::findByNo($request->input('card_no'));
+        $card->openId = User::inSession()->openId;
+        $card->save();
+        return redirect('user/card');
     }
 
     public function displayChargeForm($cardNo)
     {
-        if (!$card = $this->isCardOwner($cardNo)) {
+        $card = MpCard::findByNo($cardNo);
+        if (!$card->hadByUser(User::inSession())) {
             return 'You are not card owner.';
         }
-        $vipInfo = collect(config('mp.vip'))->where('id', '' . $card->Hy_hydj)->first();
-        $unitPrice = $vipInfo['unit_price'];
-        return view('vip-charge', compact('unitPrice'));
+        $vip = $card->vip;
+        $mode = 'charge';
+        return view('vip-pay', compact('vip', 'mode'));
     }
 
     public function charge(Request $request, $cardNo)
     {
-        if (!$card = $this->isCardOwner($cardNo)) {
+        $this->validate($request, [
+            'buy_num' => 'required|between:1,99',
+        ]);
+        $card = MpCard::findByNo($cardNo);
+        $user = User::inSession();
+        if (!$card->hadByUser($user)) {
             return 'You are not card owner.';
         }
-        $this->validate($request, [
-            'buy_num' => 'required',
-            'pay_method' => 'required|between:1,99',
-        ]);
-        $vipInfo = collect(config('mp.vip'))->where('id', '' . $card->Hy_hydj)->first();
-        $unitPrice = $vipInfo['unit_price'];
-        $chargeAmount = $unitPrice * $request->input('buy_num');
-
-        $user = User::inSession();
-        $tradeNo = date('ymd') . substr(time(), -5) . substr(microtime(), 2, 5);
-        $payment = new Payment([
-            'amount' => $chargeAmount,
-            'purchase_at' => time(),
-            'out_trade_no' => $tradeNo,
-            'product' => 'vip_charge',
-        ]);
-        $payment->user()->associate($user);
-        $payment->save();
-        $chargeRecord = ChargeRecord::create([
+        $chargeAmount = $card->vip->unitPrice * $request->input('buy_num');
+        $balance = $card->amount + $chargeAmount;
+        // payment record
+        $payment = Payment::prepare($user, $chargeAmount, 'vip_charge');
+        // event record
+        ChargeRecord::create([
             'card_no' => $cardNo,
             'amount' => $chargeAmount,
+            'balance_after_charge' => $balance,
+            'user_id' => $user->id,
             'payment_id' => $payment->id,
         ]);
-
         // payment flow
         $isProductionEnv = config('app.env') == 'production';
         if ($isProductionEnv) {
-            $attributes = [
-                'body' => 'VIP充值',
-                'detail' => '充值¥' . $chargeAmount . '至卡号为' . $cardNo . '的帐户',
-                'out_trade_no' => $tradeNo,
-                'total_fee' => $chargeAmount * 100,
-                'notify_url' => config('app.url') . '/payment/notify',
-                'trade_type' => 'JSAPI',
-                'openid' => $user->open_id,
-            ];
-
-            $order = new Order($attributes);
-            $result = Wechat::payment()->prepare($order);
+            $prepayId = $this->prepareForWechat($payment);
+            $request->session()->put('success_callback', 'user/card/' . $cardNo);
+            $request->session()->put('fail_callback', 'user/card/' . $cardNo);
             return redirect('payment/wxpub')->with([
-                'prepay_id' => $result->prepay_id,
-                'success_callback' => '/vip/' . $cardNo,
-                'fail_callback' => '/vip/' . $cardNo,
+                'prepay_id' => $prepayId,
             ]);
         } else {
-            $payment->paid = true;
-            $payment->paid_at = Carbon::now();
-            $payment->save();
-            DB::connection('mysql')->update("update hy set hy_kje=hy_kje+" . $chargeAmount . " where hy_bh='" . $cardNo . "'");
-            return redirect('/vip/' . $cardNo);
+            $payment->successCallbackForWxpub();
+            return redirect('user/card/' . $cardNo);
         }
     }
 
-    private function isCardOwner($cardNo)
+    public function displayBuyForm(Request $request, $vipId)
     {
-        $openId = User::inSession()->openId;
-        // card owner check
-        $cards = DB::connection('mysql')->table('hy')->where([
-            ['hy_wxkh', $openId],
-            ['hy_bh', $cardNo],
+        $vip = MpVip::findById($vipId);
+        $mode = 'buy';
+        $user = User::inSession();
+        $name = $request->old('name') ? $request->old('name') : $user->realname;
+        $tel = $request->old('tel') ? $request->old('tel') : $user->tel;
+        return view('vip-pay', compact('vip', 'mode', 'name', 'tel'));
+    }
+
+    public function buy(Request $request, $vipId)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'tel' => 'required|digits:11',
+            'buy_num' => 'required|between:1,99',
         ]);
-        if ($cards->count() == 0) {
+        $validator->after(function ($validator) use ($vipId) {
+            // can not bind two or more card with same type
+            if (User::inSession()->alreadyGotTheVip($vipId)) {
+                $validator->errors()->add('same_vip_bind_twice', '已绑定过该卡种的卡（同一微信账号，同一卡种，仅能绑定一次）。');
+                return;
+            }
+        });
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $vip = MpVip::findById($vipId);
+        $chargeAmount = $vip->unit_price * $request->input('buy_num');
+        // payment record
+        $payment = Payment::prepare(User::inSession(), $chargeAmount, 'vip_buy');
+        // event record
+        ChargeRecord::create([
+            'amount' => $chargeAmount,
+            'user_id' => User::inSession()->id,
+            'payment_id' => $payment->id,
+            'is_new' => true,
+            'vip_id' => $vipId,
+            'name' => $request->input('name'),
+            'tel' => $request->input('tel'),
+        ]);
+        $user = User::inSession();
+        $user->realname = $request->input('name');
+        $user->tel = $request->input('tel');
+        $user->save();
+        // payment flow
+        $isProductionEnv = config('app.env') == 'production';
+        if ($isProductionEnv) {
+            $prepayId = $this->prepareForWechat($payment);
+            $request->session()->put('success_callback', '/user/card');
+            $request->session()->put('fail_callback', '/user/card');
+            return redirect('payment/wxpub')->with([
+                'prepay_id' => $prepayId,
+            ]);
+        } else {
+            $payment->successCallbackForWxpub();
+            return redirect('/user/card');
+        }
+    }
+
+    public function auth($cardNo, $secret)
+    {
+        try {
+            $card = MpCard::find($cardNo);
+        } catch (ModelNotFoundException $e) {
             return false;
         }
-        return $cards->first();
+        if (!$card->isBound) {
+            return false;
+        }
+        $salt = $card->user->salt;
+        $matchSecret = md5($cardNo . $salt);
+        return $secret == $matchSecret ? $cardNo : false;
+    }
+
+    public function active($cardNo)
+    {
+        $card = MpCard::findByNo($cardNo);
+        if (!$card->hadByUser(User::inSession())) {
+            return 'You are not card owner.';
+        }
+        $card->active();
+        return 'success';
+    }
+
+    private function getQRUrl($cardNo, $salt)
+    {
+        $secret = md5($cardNo . $salt);
+        $url = config('app.url') . '/card/' . $cardNo . '/auth/' . $secret;
+        $imageSrc = "uploads/qr/" . $secret . ".png";
+        $savePath = public_path($imageSrc);
+        \PHPQRCode\QRcode::png($url, $savePath, 'L', 4, 2);
+        return $secret . ".png";
+    }
+
+    private function getWechatPaymentAttribute()
+    {
+        return [
+            'notify_url' => config('app.url') . '/payment/notify',
+            'trade_type' => 'JSAPI',
+            'openid' => User::inSession()->open_id,
+        ];
+    }
+
+    private function prepareForWechat(Payment $payment)
+    {
+        $order = new Order(array_merge($this->getWechatPaymentAttribute(), [
+            'body' => $payment->title,
+            'detail' => $payment->description,
+            'out_trade_no' => $payment->out_trade_no,
+            'total_fee' => $payment->amount * 100,
+        ]));
+        $result = Wechat::payment()->prepare($order);
+        return $result->prepay_id;
     }
 }

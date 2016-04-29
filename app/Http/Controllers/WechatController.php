@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\SellProduction;
+use EasyWeChat\Message\Image;
 use EasyWeChat\Message\News;
+use EasyWeChat\Message\Raw;
 
 class WechatController extends Controller
 {
@@ -20,14 +22,29 @@ class WechatController extends Controller
             switch ($message->MsgType) {
                 case 'event':
                     if ($message->Event == 'subscribe') {
+                        $openId = $message->FromUserName;
                         // 扫码报名（未关注）
                         if (substr_count($message->EventKey, 'qrscene_') > 0) {
-                            return $this->scanQrForJoinMatch(str_replace('qrscene_', '', $message->EventKey));
+                            $key = str_replace('qrscene_', '', $message->EventKey);
+                            if ($key == 1000000) {
+                                return $this->scanQrForGetCard($openId);
+                            }
+                            return $this->scanQrForJoinMatch($key);
                         }
                     }
                     // 扫码报名（已关注）
                     if ($message->Event == 'SCAN') {
-                        return $this->scanQrForJoinMatch($message->EventKey);
+                        $openId = $message->FromUserName;
+                        $key = $message->EventKey;
+                        if ($key == 1000000) {
+                            return $this->scanQrForGetCard($openId);
+                        }
+                        return $this->scanQrForJoinMatch($key);
+                    }
+                    break;
+                case 'text':
+                    if ($message->Content == '游泳') {
+                        return new Image(['media_id' => 'LUY0P8mlFZSb6H24mzka7Ht7DxrCx3YB-Y9C7M33ixg']);
                     }
                     break;
                 default:
@@ -82,6 +99,13 @@ class WechatController extends Controller
         $menu->add($buttons);
     }
 
+    public function material()
+    {
+        $material = app('wechat')->material;
+        $lists = $material->lists('image', 0, 20);
+        return $lists;
+    }
+
     private function scanQrForJoinMatch($key)
     {
         $key = intval($key);
@@ -97,5 +121,19 @@ class WechatController extends Controller
             'image' => asset('/uploads/activities/wxpub/' . $activity->banner),
         ]);
         return $news;
+    }
+
+    private function scanQrForGetCard($openId)
+    {
+        $staff = app('wechat')->staff;
+        $message = new Raw('{
+            "touser":"' . $openId . '",
+            "msgtype":"wxcard",
+            "wxcard":
+            {
+                 "card_id":"pJRMds4UiDQjgoyzNhXjNmzdGxpw"
+            }
+        }');
+        $staff->message($message)->to($openId)->send();
     }
 }

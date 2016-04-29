@@ -26,7 +26,7 @@ return [
     |
      */
 
-    'default' => env('DB_CONNECTION', 'sqlsrv'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,11 +54,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '10.168.220.48'),
+            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'zkysport'),
             'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', 'dingjianbin123'),
+            'password' => env('DB_PASSWORD', 'abc123.'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
@@ -80,11 +80,11 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', '10.168.220.48'),
+            'host' => env('DB_HOST', '192.168.100.12'),
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'mpsport'),
             'username' => env('DB_USERNAME', 'sa'),
-            'password' => env('DB_PASSWORD', 'dingjianbin1230'),
+            'password' => env('DB_PASSWORD', '123456'),
             'charset' => 'utf8',
             'prefix' => '',
         ],
